@@ -1,18 +1,91 @@
+/**
+ * CircleHub - Simple Stylesheet
+ * Basic styling for authentication pages
+ */
+
+/* Root Variables */
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+}
+
+/* Body */
 body {
-    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
 }
 
-.hero-section {
-    padding: 100px 20px;
-    text-align: center;
+/* Cards */
+.card {
+    border: none;
+    border-radius: 10px;
 }
 
-.hero-title {
-    font-size: 3rem;
-    font-weight: bold;
+.card-header {
+    border-radius: 10px 10px 0 0 !important;
 }
 
-.hero-text {
-    font-size: 1.2rem;
-    color: gray;
+/* Form Styling */
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* Buttons */
+.btn-primary {
+    padding: 10px 20px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+/* Navbar */
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+
+/* Alert animations */
+.alert {
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Session badge pulse */
+.badge.bg-warning {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Table styling */
+.table td {
+    padding: 12px 8px;
+}
+
+.table td:first-child {
+    width: 40%;
+    color: var(--secondary-color);
 }

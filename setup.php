@@ -1,68 +1,60 @@
 <?php
+/**
+ * CircleHub - Database Setup
+ * Run this file once to create the database and tables
+ * DELETE THIS FILE AFTER SETUP!
+ */
 
-require_once "config.php";
+$host = 'localhost';
+$user = 'root';
+$pass = 'root';
 
 try {
-
-    // Members Table
+    // Connect without database
+    $pdo = new PDO("mysql:host=$host;charset=utf8mb4", $user, $pass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+    ]);
+    
+    // Create database
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS circlehub CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    $pdo->exec("USE circlehub");
+    
+    // Create users table
     $pdo->exec("
-        CREATE TABLE IF NOT EXISTS members (
+        CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            username VARCHAR(50) UNIQUE NOT NULL,
-            email VARCHAR(100) UNIQUE NOT NULL,
+            username VARCHAR(50) NOT NULL UNIQUE,
+            email VARCHAR(100) NOT NULL UNIQUE,
             password VARCHAR(255) NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    ");
-
-    // Profiles Table
-    $pdo->exec("
-        CREATE TABLE IF NOT EXISTS profiles (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT NOT NULL,
-            bio TEXT,
-            profile_image VARCHAR(255) DEFAULT 'default-profile.png',
-            FOREIGN KEY (user_id) REFERENCES members(id)
-            ON DELETE CASCADE
-        )
-    ");
-
-    // Friends Table
-    $pdo->exec("
-        CREATE TABLE IF NOT EXISTS friends (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT NOT NULL,
-            friend_id INT NOT NULL,
+            full_name VARCHAR(100) NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES members(id)
-            ON DELETE CASCADE,
-            FOREIGN KEY (friend_id) REFERENCES members(id)
-            ON DELETE CASCADE
-        )
+            last_login TIMESTAMP NULL,
+            INDEX idx_username (username),
+            INDEX idx_email (email)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     ");
-
-    // Messages Table
-    $pdo->exec("
-        CREATE TABLE IF NOT EXISTS messages (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            sender_id INT NOT NULL,
-            receiver_id INT NOT NULL,
-            message TEXT NOT NULL,
-            is_private TINYINT(1) DEFAULT 0,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (sender_id) REFERENCES members(id)
-            ON DELETE CASCADE,
-            FOREIGN KEY (receiver_id) REFERENCES members(id)
-            ON DELETE CASCADE
-        )
-    ");
-
-    echo "All tables created successfully!";
-
-} catch(PDOException $e) {
-
-    die("Table Creation Failed: " . $e->getMessage());
-
+    
+    echo "<!DOCTYPE html>
+    <html>
+    <head>
+        <title>Setup Complete</title>
+        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+    </head>
+    <body class='bg-light'>
+        <div class='container mt-5'>
+            <div class='alert alert-success'>
+                <h4>Database Setup Successful!</h4>
+                <p>The database and users table have been created.</p>
+                <hr>
+                <p class='mb-0'><strong>IMPORTANT:</strong> Delete this setup.php file now for security!</p>
+            </div>
+            <a href='auth/signup.php' class='btn btn-primary'>Go to Sign Up</a>
+            <a href='auth/login.php' class='btn btn-outline-primary'>Go to Login</a>
+        </div>
+    </body>
+    </html>";
+    
+} catch (PDOException $e) {
+    echo "Setup failed: " . $e->getMessage();
 }
-
 ?>
