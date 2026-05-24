@@ -8,6 +8,8 @@ $baseUrl = '';
 $currentScript = $_SERVER['SCRIPT_NAME'];
 if (strpos($currentScript, '/auth/') !== false) {
     $baseUrl = '..';
+} else if (strpos($currentScript, '/Members/') !== false) {
+    $baseUrl = '..';
 } else {
     $baseUrl = '.';
 }
@@ -29,6 +31,16 @@ if (strpos($currentScript, '/auth/') !== false) {
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo $baseUrl; ?>/index.php">
                             <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo $baseUrl; ?>/Members/friends.php">
+                            <i class="bi bi-speedometer2 me-1"></i>Friends
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo $baseUrl; ?>/Members/discover.php">
+                            <i class="bi bi-speedometer2 me-1"></i>Discover
                         </a>
                     </li>
                     <li class="nav-item dropdown">
