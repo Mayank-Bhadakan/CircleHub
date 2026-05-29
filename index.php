@@ -23,13 +23,13 @@ require_once __DIR__ . '/includes/navbar.php';
 $flash = getFlashMessage();
 ?>
 
-<div class="container py-5">
+<div class="container py-5 position-relative">
     <?php if ($flash): ?>
         <div class="alert alert-<?php echo $flash['type']; ?> alert-dismissible fade show">
             <?php echo $flash['message']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-    <?php endif; ?>
+        <?php endif; ?>
     
     <!-- Welcome Banner -->
     <div class="row mb-4">
@@ -45,9 +45,20 @@ $flash = getFlashMessage();
                                 You are logged into your CircleHub dashboard.
                             </p>
                         </div>
-                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                        <!-- <div class="col-md-4 text-md-end mt-3 mt-md-0">
                             <i class="bi bi-person-circle" style="font-size: 5rem; opacity: 0.5;"></i>
+                        </div> -->
+
+                        <div class="col-md-4 text-end">
+
+                            <img
+                                src="<?php echo getProfileImage($user); ?>"
+                                alt="Profile Image"
+                                class="rounded-circle border border-3 border-white"
+                                style="width:120px; height:120px; object-fit:cover;">
+
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -97,6 +108,20 @@ $flash = getFlashMessage();
                         </tr>
                     </table>
                 </div>
+                
+                <div class="mt-4 text-end">
+
+                    <a 
+                        href="Profile/profile.php"
+                        class="btn btn-primary">
+
+                        <i class="bi bi-pencil-square me-2"></i>
+                        Edit Profile
+
+                    </a>
+
+                </div>
+
             </div>
         </div>
         

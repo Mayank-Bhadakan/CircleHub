@@ -12,6 +12,7 @@ if (strpos($currentScript, '/auth/') !== false) {
     $basePath = '.';
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

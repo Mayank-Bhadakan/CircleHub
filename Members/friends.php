@@ -70,7 +70,8 @@ $flash = getFlashMessage();
                         $query_results = $query->fetchAll();
                         foreach ($query_results as $row) {
                         ?>
-                            <div class="accordion-item" id="friend-list">
+                            <!-- <div class="accordion-item" id="friend-list"> -->
+                            <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="friend-list-item-<?= $row['id']; ?>" aria-expanded="true" aria-controls="friend-list-item-<?= $row['id']; ?>">
                                         <?= $row['full_name']; ?>
@@ -86,6 +87,7 @@ $flash = getFlashMessage();
                         }
                         ?>
                     </div>
+
                 </div>
             </div>
         </div>

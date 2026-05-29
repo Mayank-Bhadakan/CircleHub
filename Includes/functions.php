@@ -139,4 +139,63 @@ function requireGuest() {
         redirect(APP_URL . '/index.php');
     }
 }
+
+/**
+ * Get user by ID
+ */
+function getUserById($pdo, $userId) {
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$userId]);
+    return $stmt->fetch();
+}
+
+/**
+ * Update user profile
+ */
+function updateUserProfile($pdo, $userId, $fullName, $bio) {
+    $stmt = $pdo->prepare("UPDATE users SET full_name = ?, bio = ? WHERE id = ?");
+    return $stmt->execute([$fullName, $bio, $userId]);
+}
+
+/**
+ * Update profile image
+ */
+function updateProfileImage($pdo, $userId, $imagePath) {
+    $stmt = $pdo->prepare("UPDATE users SET profile_image = ? WHERE id = ?");
+    return $stmt->execute([$imagePath, $userId]);
+}
+
+/**
+ * Get profile image URL or default
+ */
+// function getProfileImage($user, $baseUrl = '.') {
+//     if (!empty($user['profile_image']) && file_exists(__DIR__ . '/../uploads/profiles/' . $user['profile_image'])) {
+//         return $baseUrl . '/uploads/profiles/' . $user['profile_image'];
+//     }
+//     return 'https://ui-avatars.com/api/?name=' . urlencode($user['full_name']) . '&background=0d6efd&color=fff&size=150';
+// }
+
+
+function getProfileImage($user) {
+
+    if (
+        !empty($user['profile_image']) &&
+        file_exists(__DIR__ . '/../uploads/profiles/' . $user['profile_image'])
+    ) {
+        return APP_URL . '/uploads/profiles/' . $user['profile_image'];
+    }
+
+    return 'https://ui-avatars.com/api/?name=' .
+        urlencode($user['full_name']) .
+        '&background=0d6efd&color=fff&size=150';
+}
+
+
+/**
+ * Format date for display
+ */
+function formatDate($date) {
+    if (empty($date)) return 'Never';
+    return date('M j, Y g:i A', strtotime($date));
+}
 ?>

@@ -14,6 +14,7 @@ if (strpos($currentScript, '/auth/') !== false) {
     $baseUrl = '.';
 }
 ?>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold" href="<?php echo $baseUrl; ?>/index.php">
@@ -29,21 +30,21 @@ if (strpos($currentScript, '/auth/') !== false) {
                 <?php if (isLoggedIn()): ?>
                     <!-- Logged In Menu -->
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo $baseUrl; ?>/index.php">
+                        <a class="nav-link" href="<?php echo APP_URL; ?>/index.php">
                             <i class="bi bi-speedometer2 me-1"></i>Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo $baseUrl; ?>/Members/friends.php">
+                        <a class="nav-link" href="<?php echo APP_URL; ?>/Members/friends.php">
                             <i class="bi bi-speedometer2 me-1"></i>Friends
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo $baseUrl; ?>/Members/discover.php">
+                        <a class="nav-link" href="<?php echo APP_URL; ?>/Members/discover.php">
                             <i class="bi bi-speedometer2 me-1"></i>Discover
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown ">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle me-1"></i><?php echo htmlspecialchars($_SESSION['username']); ?>
                         </a>
@@ -83,3 +84,4 @@ if (strpos($currentScript, '/auth/') !== false) {
         </div>
     </div>
 </nav>
+

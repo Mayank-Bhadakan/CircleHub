@@ -12,19 +12,20 @@ define('DB_NAME', 'circlehub');
 
 // App Configuration
 define('APP_NAME', 'CircleHub');
+define('APP_URL', 'http://localhost:8888/CircleHub');
 
 // Auto-detect APP_URL based on current location
-$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-$host = $_SERVER['HTTP_HOST'] ?? 'localhost:8888';
-$scriptPath = dirname($_SERVER['SCRIPT_NAME']);
-// Get the base path (go up if we're in a subdirectory like /auth)
-$basePath = $scriptPath;
-if (strpos($scriptPath, '/auth') !== false) {
-    $basePath = dirname($scriptPath);
-} elseif (strpos($scriptPath, '/includes') !== false) {
-    $basePath = dirname($scriptPath);
-}
-define('APP_URL', $protocol . '://' . $host . $basePath);
+// $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+// $host = $_SERVER['HTTP_HOST'] ?? 'localhost:8888';
+// $scriptPath = dirname($_SERVER['SCRIPT_NAME']);
+// // Get the base path (go up if we're in a subdirectory like /auth)
+// $basePath = $scriptPath;
+// if (strpos($scriptPath, '/auth') !== false) {
+//     $basePath = dirname($scriptPath);
+// } elseif (strpos($scriptPath, '/includes') !== false) {
+//     $basePath = dirname($scriptPath);
+// }
+// define('APP_URL', $protocol . '://' . $host . $basePath);
 
 // Session Configuration
 date_default_timezone_set('America/Los_Angeles');
