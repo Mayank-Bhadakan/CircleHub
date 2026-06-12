@@ -73,14 +73,31 @@ $flash = getFlashMessage();
                             <!-- <div class="accordion-item" id="friend-list"> -->
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="friend-list-item-<?= $row['id']; ?>" aria-expanded="true" aria-controls="friend-list-item-<?= $row['id']; ?>">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#friend-list-item-<?= $row['id']; ?>" aria-expanded="true" aria-controls="friend-list-item-<?= $row['id']; ?>">
                                         <?= $row['full_name']; ?>
                                     </button>
                                 </h2>
                                 <div id="friend-list-item-<?= $row['id']; ?>" class="accordion-collapse collapse show" data-bs-parent="#friend-list">
                                     <div class="accordion-body">
-                                        Click to send message
+
+                                        <a href="../Messages/messages.php?friend_id=<?= $row['id']; ?>"
+                                        class="btn btn-primary btn-sm">
+                                            Message
+                                        </a>
+
+                                        <a href="../Profile/view_profile.php?id=<?php echo $row['id']; ?>"
+                                            class="btn btn-secondary btn-sm">
+                                            View Profile
+                                         </a>
+
+                                        <a href="unfollow.php?id=<?= $row['id']; ?>"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Remove this friend?');">
+                                            Remove Friend
+                                        </a>
+
                                     </div>
+
                                 </div>
                             </div>
                         <?php

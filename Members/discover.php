@@ -49,11 +49,28 @@ $flash = getFlashMessage();
                 <div class="card-body p-4 p-md-5">
                     <div class="row align-items-center">
                         <?php
+
                         $uid = $user['id'];
-                        $query = $pdo->prepare("SELECT u.id, u.full_name FROM users u WHERE NOT EXISTS (SELECT 1 FROM friends f WHERE f.uid = u.id AND f.friend_id = ?) AND u.id != ?;");
-                        $query->bindParam(1, $uid);
-                        $query->bindParam(2, $uid);
-                        $query->execute();
+                        $search = $_GET['search'] ?? '';
+
+                        $query = $pdo->prepare("
+                            SELECT id, full_name
+                            FROM users
+                            WHERE id != ?
+                            AND id NOT IN (
+                                SELECT friend_id
+                                FROM friends
+                                WHERE uid = ?
+                            )
+                            AND full_name LIKE ?
+                        ");
+
+                        $query->execute([
+                            $uid,
+                            $uid,
+                            "%$search%"
+                        ]);
+
                         $query_results = $query->fetchAll();
                         if (count($query_results) > 0) {
                             ?>
@@ -61,13 +78,61 @@ $flash = getFlashMessage();
                                 Want to find someone else to chat with? Try sending message to any of the following?
                             </p>
                             <br />
-                            <ul>
-                                <?php
-                                foreach ($query_results as $row) {
-                                    echo "<li>User: " . $row['full_name'] . "</li>";
-                                }
-                                ?>
-                            </ul>
+                           
+                            <form method="GET" class="mb-4">
+
+                                <input
+                                    type="text"
+                                    name="search"
+                                    class="form-control"
+                                    placeholder="Search users..."
+                                    value="<?php echo htmlspecialchars($search); ?>">
+
+                                <button type="submit" class="btn btn-primary mt-2">
+                                    Search
+                                </button>
+
+                                <a href="discover.php" class="btn btn-secondary mt-2"> Clear </a>
+
+                            </form>
+
+                            <div class="row">
+
+                                <?php foreach ($query_results as $row): ?>
+
+                                <div class="col-md-4 mb-4">
+
+                                    <div class="card shadow-sm">
+
+                                        <div class="card-body text-center">
+
+                                            <img
+                                                src="https://ui-avatars.com/api/?name=<?php echo urlencode($row['full_name']); ?>"
+                                                class="rounded-circle mb-3"
+                                                width="100">
+
+                                            <h5>
+                                                <?php echo htmlspecialchars($row['full_name']); ?>
+                                            </h5>
+
+                                            <a href="follow.php?id=<?php echo $row['id']; ?>"
+                                            class="btn btn-primary">
+                                            Add Friend
+                                            </a>
+
+                                            <a href="../Profile/view_profile.php?id=<?php echo $row['id']; ?>" class="btn btn-outline-secondary mt-2"> View Profile </a>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <?php endforeach; ?>
+
+                             </div>
+
+
                         <?php
                         } else {
                         ?>
