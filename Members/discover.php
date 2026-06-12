@@ -62,10 +62,20 @@ $flash = getFlashMessage();
                                 FROM friends
                                 WHERE uid = ?
                             )
+
+                            AND id NOT IN (
+                                SELECT receiver_id
+                                FROM friend_requests
+                                WHERE sender_id = ?
+                                AND status = 'pending'
+                            )
                             AND full_name LIKE ?
                         ");
 
+
+
                         $query->execute([
+                            $uid,
                             $uid,
                             $uid,
                             "%$search%"

@@ -40,6 +40,11 @@ if (strpos($currentScript, '/auth/') !== false) {
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/CircleHub/Members/requests.php">
+                            Requests
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="<?php echo APP_URL; ?>/Members/discover.php">
                             <i class="bi bi-speedometer2 me-1"></i>Discover
                         </a>

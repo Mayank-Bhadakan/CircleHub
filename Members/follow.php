@@ -19,23 +19,55 @@ if ($userId == $friendId) {
     exit();
 }
 
-$check = $pdo->prepare("
+/*
+|--------------------------------------------------------------------------
+| Check if already friends
+|--------------------------------------------------------------------------
+*/
+$checkFriend = $pdo->prepare("
     SELECT id
     FROM friends
     WHERE uid = ?
     AND friend_id = ?
 ");
 
-$check->execute([$userId, $friendId]);
+$checkFriend->execute([$userId, $friendId]);
 
-if ($check->rowCount() == 0) {
+/*
+|--------------------------------------------------------------------------
+| Check if request already exists
+|--------------------------------------------------------------------------
+*/
+$checkRequest = $pdo->prepare("
+    SELECT id
+    FROM friend_requests
+    WHERE sender_id = ?
+    AND receiver_id = ?
+    AND status = 'pending'
+");
+
+$checkRequest->execute([$userId, $friendId]);
+
+/*
+|--------------------------------------------------------------------------
+| Insert request only if not friend and no pending request
+|--------------------------------------------------------------------------
+*/
+if (
+    $checkFriend->rowCount() == 0 &&
+    $checkRequest->rowCount() == 0
+) {
 
     $stmt = $pdo->prepare("
-        INSERT INTO friends (uid, friend_id)
+        INSERT INTO friend_requests
+        (sender_id, receiver_id)
         VALUES (?, ?)
     ");
 
-    $stmt->execute([$userId, $friendId]);
+    $stmt->execute([
+        $userId,
+        $friendId
+    ]);
 }
 
 header("Location: discover.php");
