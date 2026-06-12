@@ -54,7 +54,7 @@ $flash = getFlashMessage();
                         $search = $_GET['search'] ?? '';
 
                         $query = $pdo->prepare("
-                            SELECT id, full_name
+                            SELECT *
                             FROM users
                             WHERE id != ?
                             AND id NOT IN (
@@ -116,10 +116,18 @@ $flash = getFlashMessage();
 
                                         <div class="card-body text-center">
 
-                                            <img
-                                                src="https://ui-avatars.com/api/?name=<?php echo urlencode($row['full_name']); ?>"
-                                                class="rounded-circle mb-3"
-                                                width="100">
+                                                <?php
+                                                    $image = !empty($row['profile_image'])
+                                                        ? "../uploads/profiles/" . $row['profile_image']
+                                                        : "https://ui-avatars.com/api/?name=" . urlencode($row['full_name']);
+                                                    ?>
+
+                                                    <img
+                                                        src="<?php echo $image; ?>"
+                                                        class="rounded-circle mb-3"
+                                                        width="100"
+                                                        height="100"
+                                                        style="object-fit: cover;">
 
                                             <h5>
                                                 <?php echo htmlspecialchars($row['full_name']); ?>
